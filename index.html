@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Creepster', cursive;
+            overflow: hidden;
+        }
+
+        .timer {
+            color: #ff6600;
+            font-size: 8rem;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 0.15em;
+            text-shadow: 
+                0 0 3px #ff6600,
+                0 0 6px #ff6600;
+            animation: flicker 5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 
+                    0 0 3px #ff6600,
+                    0 0 6px #ff6600;
+            }
+            20%, 24%, 55% {
+                text-shadow: 
+                    0 0 2px #ff6600,
+                    0 0 4px #ff6600;
+            }
+        }
+
+        .link-container {
+            display: none;
+            text-align: center;
+        }
+
+        .link {
+            color: #ff6600;
+            font-size: 3rem;
+            text-decoration: none;
+            text-shadow: 
+                0 0 3px #ff6600,
+                0 0 6px #ff6600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .link:hover {
+            color: #ff3300;
+            transform: scale(1.1);
+            text-shadow: 
+                0 0 20px #ff6600,
+                0 0 30px #ff6600,
+                0 0 40px #ff3300,
+                0 0 50px #ff3300;
+        }
+
+        @media (max-width: 768px) {
+            .timer {
+                font-size: 4rem;
+            }
+            .link {
+                font-size: 1.5rem;
+                padding: 0 20px;
+                word-break: break-all;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer" id="timer">00:00:00</div>
+    <div class="link-container" id="linkContainer">
+        <a href="https://forms.gle/yutBEYfqTB6QsaHc9" class="link" id="link">https://forms.gle/yutBEYfqTB6QsaHc9</a>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            
+            // Set target to today at 12:00 PM
+            const target = new Date();
+            target.setHours(12, 0, 0, 0);
+            
+            // If we've already passed 12 PM today, the countdown is over
+            if (now >= target) {
+                document.getElementById('timer').style.display = 'none';
+                document.getElementById('linkContainer').style.display = 'block';
+                return;
+            }
+            
+            // Calculate time difference
+            const diff = target - now;
+            
+            // Calculate hours, minutes, seconds
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Display with leading zeros
+            const display = 
+                String(hours).padStart(2, '0') + ':' +
+                String(minutes).padStart(2, '0') + ':' +
+                String(seconds).padStart(2, '0');
+            
+            document.getElementById('timer').textContent = display;
+        }
+        
+        // Update immediately and then every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
